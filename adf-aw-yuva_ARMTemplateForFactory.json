@@ -1,0 +1,42 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "factoryName": {
+            "type": "string",
+            "metadata": "Data Factory name",
+            "defaultValue": "adf-aw-yuva"
+        },
+        "dataFactory_location": {
+            "type": "string",
+            "defaultValue": "southindia"
+        },
+        "dataFactory_identity_type": {
+            "type": "string",
+            "defaultValue": "SystemAssigned"
+        }
+    },
+    "variables": {
+        "factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+    },
+    "resources": [
+        {
+            "name": "[parameters('factoryName')]",
+            "type": "Microsoft.DataFactory/factories",
+            "apiVersion": "2018-06-01",
+            "properties": {
+                "trustModeClaimForMi": {
+                    "value": "Disabled",
+                    "editable": true
+                }
+            },
+            "dependsOn": [],
+            "location": "[parameters('dataFactory_location')]",
+            "identity": {
+                "type": "[parameters('dataFactory_identity_type')]",
+                "principalId": "c11b8146-f03d-4e97-b0af-0564da510173",
+                "tenantId": "d5d5cc17-b4c1-4dbd-a0a2-c8a80e515381"
+            }
+        }
+    ]
+}
